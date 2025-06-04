@@ -1,0 +1,17 @@
+.photo-card {
+    position: relative;
+}
+
+.photo-card-favorite-icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid red;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+
+    &.is-favorite {
+        background-color: red;
+    }
+}

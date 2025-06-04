@@ -1,0 +1,4 @@
+<div class="photo-card" (click)="addToFavorite()">
+    <img src="{{ photo.href }}" alt="Random Image">
+    <div class="photo-card-favorite-icon" [ngClass]="{ 'is-favorite': photo.isFavorite }" *ngIf="isFavoriteIconVisible"></div>
+</div>

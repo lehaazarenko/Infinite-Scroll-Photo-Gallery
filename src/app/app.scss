@@ -1,0 +1,22 @@
+header {
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(230, 243, 255);
+    padding: 32px;
+
+    .navigation-link {
+        font-size: 24px;
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        padding: 8px 16px;
+
+        &--active {
+            color: rgb(0, 119, 199);
+            font-weight: bold;
+        }
+
+        &:hover {
+            color: rgb(99, 117, 150);
+        }
+    }
+}
