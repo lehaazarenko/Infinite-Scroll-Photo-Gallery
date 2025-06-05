@@ -1,0 +1,10 @@
+<!-- for testing -->
+<!-- <div style="height: 1000px;"></div> -->
+<section class="photos-container" infiniteScroll [dataLoaded]="!isLoading" (reachedEnd)="loadMorePhotos()">
+    @for (photo of photos; track photo.id) {
+        <app-photo-card [photo]="photo" (clickTrigger)="handleCardClick($event)"></app-photo-card>
+    }
+</section>
+@if (isLoading) {
+    <app-loading></app-loading>
+}

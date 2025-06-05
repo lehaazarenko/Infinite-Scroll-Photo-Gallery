@@ -1,0 +1,11 @@
+<div class="photo-card" (click)="handleCardClick()" [attr.data-testid]="'photo-card-' + photo.id">
+    <img src="{{ photo.href }}" alt="Random Image">
+    @if (isFavoriteIconVisible) {
+        <img
+            data-testid="photo-card-favorite-icon"
+            src="{{`assets/icons/heart${photo.isFavorite ? '-filled' : ''}-svgrepo-com.svg`}}"
+            alt="FavoriteIcon"
+            class="photo-card-favorite-icon"
+            [ngClass]="{ 'is-favorite': photo.isFavorite }">
+    }
+</div>

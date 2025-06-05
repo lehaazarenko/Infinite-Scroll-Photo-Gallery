@@ -1,0 +1,8 @@
+<section class="favorite-photos">
+    @for (photo of favoritePhotos; track photo.id) {
+        <app-photo-card [photo]="photo" [isFavoriteIconVisible]="false" (clickTrigger)="handlePhotoClick($event)"></app-photo-card>
+    }
+    @if (isLoading) {
+        <app-loading></app-loading>
+    }
+</section>

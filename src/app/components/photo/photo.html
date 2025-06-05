@@ -1,0 +1,9 @@
+<section class="photo-container">
+    @if (isLoading) {
+        <img src="assets/icons/12-dots-scale-rotate.svg" alt="Loading spinner">
+    }
+    @else if (photo && !isLoading) {
+        <img src="{{ photo.href }}" alt="Favorite Photo">
+        <button class="remove-from-favorites-btn" (click)="removeFromFavorites()">Remove from favorites</button>
+    }
+</section>
