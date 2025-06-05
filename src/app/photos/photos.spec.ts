@@ -42,7 +42,7 @@ describe('Photos Component', () => {
                     useValue: photosServiceMock
                 }
             ]
-        }).compileComponents()
+        }).compileComponents();
     });
 
     beforeEach(() => {
@@ -74,12 +74,26 @@ describe('Photos Component', () => {
         expect(photosServiceMock.initLoadPhotos).toHaveBeenCalled();
     });
 
-    xit('should call loadPhotos in photosService', () => {
-        // spyOn(component , 'loadMorePhotos');
+    it('should call loadPhotos in photosService', () => {
+        component.isLoading = false;
         component.loadMorePhotos();
         fixture.detectChanges();
-        // expect(component.loadMorePhotos).toHaveBeenCalled();
         expect(photosServiceMock.loadPhotos).toHaveBeenCalled();
+    });
+
+    it('should not call loadPhotos if isLoading is true', () => {
+        component.isLoading = true;
+        component.loadMorePhotos();
+        fixture.detectChanges();
+        expect(photosServiceMock.loadPhotos).not.toHaveBeenCalled();
+    });
+
+    it('should not call loadPhotos if total is reached', () => {
+        component.isLoading = false;
+        component['total'] = mockPhotos.length;
+        component.loadMorePhotos();
+        fixture.detectChanges();
+        expect(photosServiceMock.loadPhotos).not.toHaveBeenCalled();
     });
 
     it('should call handleCardClick on card click', () => {
@@ -88,6 +102,10 @@ describe('Photos Component', () => {
         card.click();
         fixture.detectChanges();
         expect(component.handleCardClick).toHaveBeenCalled();
-        // expect(photosServiceMock.addToFavorite).toHaveBeenCalled();
+    });
+
+    it('should call addToFavorite in handleCardClick', () => {
+        component.handleCardClick(2);
+        expect(photosServiceMock.addToFavorite).toHaveBeenCalled();
     });
 });
