@@ -4,12 +4,13 @@ import { Photo } from "../../models/photos.model";
 import { PhotoCardComponent } from "../photo-card/photo-card";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+import { LoadingComponent } from "../loading/loading";
 
 @Component({
     selector: 'app-favorites',
     templateUrl: './favorites.html',
     styleUrls: ['./favorites.scss'],
-    imports: [PhotoCardComponent],
+    imports: [PhotoCardComponent, LoadingComponent],
     providers: [],
 })
 export class FavoritesComponent implements OnInit, OnDestroy {
@@ -18,10 +19,12 @@ export class FavoritesComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
     favoritePhotos: Photo[] = [];
+    isLoading = true;
 
     constructor() {
         this.subscription = this.photosService.favoritePhotos$.subscribe((photos: Photo[]) => {
             this.favoritePhotos = photos;
+            this.isLoading = false;
         })
     }
 
