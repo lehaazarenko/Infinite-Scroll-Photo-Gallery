@@ -14,7 +14,7 @@ export class PhotoCardComponent {
     @Input() isFavoriteIconVisible = true;
     @Output() clickTrigger = new EventEmitter<number>;
 
-    addToFavorite(): void {
+    handleCardClick(): void {
         this.clickTrigger.emit(this.photo.id);
     }
 }

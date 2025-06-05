@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { PhotosService } from "../photos.service";
+import { PhotosService } from "../services/photos.service";
 import { Photo } from "../photos.model";
 
 @Component({
@@ -15,18 +15,21 @@ export class PhotoComponent {
     private readonly photosService = inject(PhotosService);
     private readonly router = inject(Router);
 
-    paramMapSubscription: Subscription;
+    paramMapSubscription: Subscription = new Subscription();
     photoSubscription: Subscription = new Subscription();
     photo: Photo;
+    isLoading = false;
 
-    constructor() {
+    ngOnInit(): void {
         this.paramMapSubscription = this.activatedRoute.paramMap.subscribe(params => {
             const id = params.get('id');
-            if (id) {
-                this.subscribeToGetPhoto(+id);
-            } else {
-                this.router.navigateByUrl('/');
+
+            if (!id) {
+                this.navigateToHome();
+                return;
             }
+
+            this.subscribeToGetPhoto(+id);
         });
     }
 
@@ -36,8 +39,19 @@ export class PhotoComponent {
     }
 
     private subscribeToGetPhoto(id: number): void {
-        this.photoSubscription = this.photosService.getPhoto(id).subscribe((photo) => {
+        this.isLoading = true;
+        this.photoSubscription = this.photosService.getPhotoFromFavorites(id).subscribe((photo) => {
+            this.isLoading = false;
+            if (!photo) {
+                this.navigateToHome();
+                return;
+            }
+
             this.photo = photo;
         });
+    }
+
+    private navigateToHome(): void {
+        this.router.navigateByUrl('/');
     }
 }

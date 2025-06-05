@@ -1,17 +1,18 @@
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { PhotosService } from "./photos.service";
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { PhotosService } from "./services/photos.service";
 import { Photo } from "./photos.model";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { debounceTime, Subscription } from "rxjs";
 import { PhotoCardComponent } from "./photo-card/photo-card";
 import { LoadingComponent } from "../loading/loading";
+import { ScrollNearEndDirective } from "./directives/scroll.directive";
 
 @Component({
     selector: 'app-photos',
     templateUrl: './photos.html',
     styleUrls: ['./photos.scss'],
-    imports: [FontAwesomeModule, PhotoCardComponent, LoadingComponent],
-    providers: []
+    imports: [FontAwesomeModule, PhotoCardComponent, LoadingComponent, ScrollNearEndDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotosComponent implements OnInit, OnDestroy {
     private readonly photosService = inject(PhotosService);
@@ -23,14 +24,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
     isLoading = true;
 
     constructor() {
-        this.subscription = this.photosService.photos$.pipe(
-            debounceTime(1000)
-        ).subscribe((photos: Photo[]) => {
-            if (photos.length) {
-                this.photos = [...this.photos, ...photos]
-            }
-            this.isLoading = false;
-        });
+        this.subscription = this.photosService.photos$
+            .subscribe((photos: Photo[]) => {
+                if (photos.length) {
+                    this.photos = [...this.photos, ...photos]
+                }
+                this.isLoading = false;
+            });
     }
 
     ngOnInit(): void {
@@ -43,9 +43,15 @@ export class PhotosComponent implements OnInit, OnDestroy {
     }
 
     loadMorePhotos(): void {
+        if (this.isLoading) {
+            return;
+        }
+
         this.isLoading = true;
         if (this.photos.length !== this.total) {
             this.photosService.loadPhotos(this.numberOfLoadingItems);
+        } else {
+            this.isLoading = false;
         }
     }
 

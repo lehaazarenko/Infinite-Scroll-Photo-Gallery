@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import photosJson from '../../assets/photos.json';
-import { BehaviorSubject, Observable, of } from "rxjs";
-import { Photo } from "./photos.model";
+import photosJson from '../../../assets/photos.json';
+import { BehaviorSubject, debounceTime, delay, map, Observable, of, timeout } from "rxjs";
+import { Photo } from "../photos.model";
 
 @Injectable()
 export class PhotosService {
@@ -11,8 +11,9 @@ export class PhotosService {
     private favoritePhotosSubject = new BehaviorSubject<Photo[]>([]);
     private localStorageFavoritePhotosName = 'favorite-photos';
 
-    photos$ = this.photosSubject.asObservable();
-    favoritePhotos$ = this.favoritePhotosSubject.asObservable();
+    // photos$ = this.photosSubject.pipe(delay(this.getRandomDelay()));
+    photos$ = this.photosSubject.pipe(delay(1000));
+    favoritePhotos$ = this.favoritePhotosSubject.pipe(delay(this.getRandomDelay()));
 
     constructor() {
         const favoritePhotosIds = this.getFavoritePhotosIdsFromLocalStorage();
@@ -41,9 +42,7 @@ export class PhotosService {
         if (!favoritePhotosIds.length){
             localStorage.setItem(this.localStorageFavoritePhotosName, stringId);
             return;
-        }
-
-        if (!favoritePhotosIds.includes(stringId)) {
+        } else if (!favoritePhotosIds.includes(stringId)) {
             favoritePhotosIds.push(stringId);
             this.setNewFavoritePhotosToLocalStorage(favoritePhotosIds);
         }
@@ -70,9 +69,20 @@ export class PhotosService {
         this.favoritePhotosSubject.next(favoritePhotos);
     }
 
-    getPhoto(id: number): Observable<Photo> {
+    getPhotoFromFavorites(id: number): Observable<Photo> {
+        if (!this.favoritePhotosSubject.value.length) {
+            this.loadFavoritePhotos();
+        }
         const favoritePhotos = this.favoritePhotosSubject.value;
-        return of(favoritePhotos.find((photo) => photo.id === id) as Photo);
+        return of(favoritePhotos.find((photo) => photo.id === id) as Photo)
+            .pipe(
+                delay(this.getRandomDelay())
+            );
+    }
+
+    private getRandomDelay(): number {
+        const delay = 200 + Math.floor(Math.random() * 100);
+        return delay;
     }
 
     private setNewFavoritePhotosToLocalStorage(favoritePhotos: string[]): void {

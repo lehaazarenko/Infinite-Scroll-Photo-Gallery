@@ -1,18 +1,10 @@
 <!-- for testing -->
 <!-- <div style="height: 1000px;"></div> -->
-<section class="photos-container">
+<section class="photos-container" appScrollNearEnd [dataLoaded]="!isLoading" (nearEnd)="loadMorePhotos()">
     @for (photo of photos; track photo.id) {
         <app-photo-card [photo]="photo" (clickTrigger)="handleCardClick($event)"></app-photo-card>
     }
 </section>
-<!-- testing this approach for infinite scroll -->
-@if (!isLoading) {
-    @defer (on viewport) {
-        <app-loading (initLoading)="loadMorePhotos()"></app-loading>
-    }
-    @placeholder {
-        <div class="loading-spinner-container">
-            <span class="loading-more">Start loading more placeholder...</span>
-        </div>
-    }
+@if (isLoading) {
+    <app-loading></app-loading>
 }
