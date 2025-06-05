@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestro
 import { PhotosService } from "./services/photos.service";
 import { Photo } from "./photos.model";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { debounceTime, filter, Subscription } from "rxjs";
+import { debounceTime, Subscription } from "rxjs";
 import { PhotoCardComponent } from "./photo-card/photo-card";
 import { LoadingComponent } from "../loading/loading";
-import { ScrollNearEndDirective } from "./directives/scroll.directive";
+import { InfiniteScrollDirective } from "./directives/scroll.directive";
 
 @Component({
     selector: 'app-photos',
     templateUrl: './photos.html',
     styleUrls: ['./photos.scss'],
-    imports: [FontAwesomeModule, PhotoCardComponent, LoadingComponent, ScrollNearEndDirective],
+    imports: [FontAwesomeModule, PhotoCardComponent, LoadingComponent, InfiniteScrollDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotosComponent implements OnInit, OnDestroy {
@@ -35,6 +35,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
                 }
                 this.x.detectChanges();
                 this.isLoading = false;
+                this.x.detectChanges();
             });
     }
 
@@ -45,10 +46,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
-    }
-
-    log(photos: Photo[]): string {
-        return photos.length ? photos[0].id.toString(): '';
     }
 
     loadMorePhotos(): void {
