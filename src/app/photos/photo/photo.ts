@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { PhotosService } from "../services/photos.service";
@@ -10,7 +10,7 @@ import { Photo } from "../photos.model";
     styleUrls: ['./photo.scss'],
     providers: []
 })
-export class PhotoComponent {
+export class PhotoComponent implements OnInit {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly photosService = inject(PhotosService);
     private readonly router = inject(Router);

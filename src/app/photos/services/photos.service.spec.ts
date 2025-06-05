@@ -1,6 +1,5 @@
-import { fakeAsync, flush, TestBed, tick } from "@angular/core/testing";
+import { TestBed } from "@angular/core/testing";
 import { PhotosService } from "./photos.service";
-import { Photo } from "../photos.model";
 
 describe('PhotosService', () => {
     let service: PhotosService;

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { PhotosService } from "./services/photos.service";
 import { Photo } from "./photos.model";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { debounceTime, Subscription } from "rxjs";
+import { debounceTime, filter, Subscription } from "rxjs";
 import { PhotoCardComponent } from "./photo-card/photo-card";
 import { LoadingComponent } from "../loading/loading";
 import { ScrollNearEndDirective } from "./directives/scroll.directive";
@@ -16,6 +16,7 @@ import { ScrollNearEndDirective } from "./directives/scroll.directive";
 })
 export class PhotosComponent implements OnInit, OnDestroy {
     private readonly photosService = inject(PhotosService);
+    private readonly x = inject(ChangeDetectorRef);
 
     private numberOfLoadingItems = 10;
     private subscription: Subscription;
@@ -25,10 +26,14 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
     constructor() {
         this.subscription = this.photosService.photos$
+            .pipe(
+                debounceTime(300)
+            )
             .subscribe((photos: Photo[]) => {
                 if (photos.length) {
                     this.photos = [...this.photos, ...photos]
                 }
+                this.x.detectChanges();
                 this.isLoading = false;
             });
     }
@@ -40,6 +45,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    log(photos: Photo[]): string {
+        return photos.length ? photos[0].id.toString(): '';
     }
 
     loadMorePhotos(): void {

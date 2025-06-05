@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import photosJson from '../../../assets/photos.json';
-import { BehaviorSubject, debounceTime, delay, map, Observable, of, timeout } from "rxjs";
+import { BehaviorSubject, catchError, delay, Observable, of } from "rxjs";
 import { Photo } from "../photos.model";
 
 @Injectable()
@@ -12,8 +12,14 @@ export class PhotosService {
     private localStorageFavoritePhotosName = 'favorite-photos';
 
     // photos$ = this.photosSubject.pipe(delay(this.getRandomDelay()));
-    photos$ = this.photosSubject.pipe(delay(1000));
-    favoritePhotos$ = this.favoritePhotosSubject.pipe(delay(this.getRandomDelay()));
+    photos$ = this.photosSubject.pipe(
+        catchError(() => of([])),
+        delay(this.getRandomDelay())
+    );
+    favoritePhotos$ = this.favoritePhotosSubject.pipe(
+        catchError(() => of([])),
+        delay(this.getRandomDelay())
+    );
 
     constructor() {
         const favoritePhotosIds = this.getFavoritePhotosIdsFromLocalStorage();

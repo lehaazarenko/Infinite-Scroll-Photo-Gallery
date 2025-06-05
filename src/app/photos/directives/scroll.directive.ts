@@ -18,7 +18,7 @@ export class ScrollNearEndDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.window) return;
+    if (!this.window || !this.dataLoaded) return;
 
     const scrollToBottom = this.getScrollToBottom();
   
@@ -29,6 +29,7 @@ export class ScrollNearEndDirective implements OnInit, OnChanges {
 
   @HostListener('window:scroll', ['$event.target'])
   windowScrollEvent(target: EventTarget | null) {
+    if (!this.dataLoaded) return;
     // calculated whether we are near the end
     const scrollToBottom = this.getScrollToBottom();
 
