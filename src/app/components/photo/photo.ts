@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { PhotosService } from "../services/photos.service";
-import { Photo } from "../photos.model";
+import { PhotosService } from "../../services/photos.service";
+import { Photo } from "../../models/photos.model";
 
 @Component({
     selector: 'app-photo',

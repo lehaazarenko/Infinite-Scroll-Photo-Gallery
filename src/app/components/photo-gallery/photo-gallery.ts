@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { PhotosService } from "./services/photos.service";
-import { Photo } from "./photos.model";
+import { PhotosService } from "./../../services/photos.service";
+import { Photo } from "../../models/photos.model";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { debounceTime, Subscription } from "rxjs";
-import { PhotoCardComponent } from "./photo-card/photo-card";
+import { PhotoCardComponent } from "./../photo-card/photo-card";
 import { LoadingComponent } from "../loading/loading";
-import { InfiniteScrollDirective } from "./directives/scroll.directive";
+import { InfiniteScrollDirective } from "../../directives/scroll.directive";
 
 @Component({
-    selector: 'app-photos',
-    templateUrl: './photos.html',
-    styleUrls: ['./photos.scss'],
+    selector: 'app-photo-gallery',
+    templateUrl: './photo-gallery.html',
+    styleUrls: ['./photo-gallery.scss'],
     imports: [FontAwesomeModule, PhotoCardComponent, LoadingComponent, InfiniteScrollDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PhotosComponent implements OnInit, OnDestroy {
+export class PhotoGalleryComponent implements OnInit, OnDestroy {
     private readonly photosService = inject(PhotosService);
     private readonly x = inject(ChangeDetectorRef);
 

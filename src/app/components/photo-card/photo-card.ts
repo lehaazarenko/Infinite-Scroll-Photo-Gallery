@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
-import { Photo } from "../photos.model";
+import { Photo } from "../../models/photos.model";
 import { CommonModule } from "@angular/common";
 
 @Component({

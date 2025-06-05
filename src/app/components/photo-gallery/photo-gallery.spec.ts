@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing"
-import { PhotosComponent } from "./photos"
-import { PhotosService } from "./services/photos.service";
+import { PhotoGalleryComponent } from "./photo-gallery"
+import { PhotosService } from "../../services/photos.service";
 import { By } from "@angular/platform-browser";
 import { of } from 'rxjs';
-import { Photo } from "./photos.model";
-
-// class PhotosMockService {
-//     photos$: of(mockPhotos)
-// };
+import { Photo } from "../../models/photos.model";
 
 const mockPhotos: Photo[] = [
     {
@@ -23,8 +19,8 @@ const mockPhotos: Photo[] = [
 ]
 
 describe('Photos Component', () => {
-    let fixture: ComponentFixture<PhotosComponent>;
-    let component: PhotosComponent;
+    let fixture: ComponentFixture<PhotoGalleryComponent>;
+    let component: PhotoGalleryComponent;
     let photosServiceMock: jasmine.SpyObj<PhotosService>;
 
     beforeEach(async () => {
@@ -35,7 +31,7 @@ describe('Photos Component', () => {
             'photos$'
         ]);
         TestBed.configureTestingModule({
-            imports: [PhotosComponent],
+            imports: [PhotoGalleryComponent],
             providers: [
                 {
                     provide: PhotosService,
@@ -47,7 +43,7 @@ describe('Photos Component', () => {
 
     beforeEach(() => {
         photosServiceMock.photos$ = of(mockPhotos);
-        fixture = TestBed.createComponent(PhotosComponent);
+        fixture = TestBed.createComponent(PhotoGalleryComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

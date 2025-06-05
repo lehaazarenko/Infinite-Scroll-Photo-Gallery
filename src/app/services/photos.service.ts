@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import photosJson from '../../../assets/photos.json';
+import photosJson from '../../assets/photos.json';
 import { BehaviorSubject, catchError, delay, Observable, of } from "rxjs";
-import { Photo } from "../photos.model";
+import { Photo } from "../models/photos.model";
 
 @Injectable()
 export class PhotosService {
@@ -69,7 +69,7 @@ export class PhotosService {
 
     loadFavoritePhotos(): void {
         const favoritePhotosIds = this.getFavoritePhotosIdsFromLocalStorage();
-        const favoritePhotos = photosJson.filter((photo) => (
+        const favoritePhotos = photosJson.filter((photo: Photo) => (
             favoritePhotosIds.includes(photo.id.toString())
         ));
         this.favoritePhotosSubject.next(favoritePhotos);

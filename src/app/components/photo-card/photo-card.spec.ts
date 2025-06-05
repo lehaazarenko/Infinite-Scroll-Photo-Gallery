@@ -1,7 +1,7 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from "@angular/core/testing"
 import { PhotoCardComponent } from "./photo-card";
 import { ComponentRef } from "@angular/core";
-import { Photo } from "../photos.model";
+import { Photo } from "../../models/photos.model";
 import { By } from "@angular/platform-browser";
 
 describe('LoadingComponent', () => {

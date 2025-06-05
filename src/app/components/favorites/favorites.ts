@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { PhotosService } from "../photos/services/photos.service";
-import { Photo } from "../photos/photos.model";
-import { PhotoCardComponent } from "../photos/photo-card/photo-card";
+import { PhotosService } from "../../services/photos.service";
+import { Photo } from "../../models/photos.model";
+import { PhotoCardComponent } from "../photo-card/photo-card";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 

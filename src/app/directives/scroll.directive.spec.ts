@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { PhotosComponent } from "../photos";
+import { PhotoGalleryComponent } from "../components/photo-gallery/photo-gallery";
 import { DebugElement } from "@angular/core";
 import { InfiniteScrollDirective } from "./scroll.directive";
 import { PhotosService } from "../services/photos.service";
 
 describe('InfiniteScrollDirective', () => {
-    let fixture: ComponentFixture<PhotosComponent>;
-    let component: PhotosComponent;
+    let fixture: ComponentFixture<PhotoGalleryComponent>;
+    let component: PhotoGalleryComponent;
     let el: DebugElement;
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            imports: [PhotosComponent],
+            imports: [PhotoGalleryComponent],
             providers: [PhotosService]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(PhotosComponent);
+        fixture = TestBed.createComponent(PhotoGalleryComponent);
         component = fixture.componentInstance;
         el = fixture.debugElement;
         fixture.detectChanges();

@@ -4,16 +4,16 @@ export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => import('./photos/photos').then((m) => m.PhotosComponent)
+        loadComponent: () => import('./components/photo-gallery/photo-gallery').then((m) => m.PhotoGalleryComponent)
     },
     {
         path: 'favorites',
         pathMatch: 'full',
-        loadComponent: () => import('./favorites/favorites').then((m) => m.FavoritesComponent)
+        loadComponent: () => import('./components/favorites/favorites').then((m) => m.FavoritesComponent)
     },
     {
         path: 'photos/:id',
         pathMatch: 'full',
-        loadComponent: () => import('./photos/photo/photo').then((m) => m.PhotoComponent)
+        loadComponent: () => import('./components/photo/photo').then((m) => m.PhotoComponent)
     },
 ];
